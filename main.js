@@ -26,10 +26,10 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 
 //create mesh components so geometry and material, +the defined shape from the library or blender**************
-
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+const sunTexture = new THREE.TextureLoader().load("sun.jpg");
+const geometry = new THREE.SphereGeometry(25, 24, 24);
 const material = new THREE.MeshStandardMaterial({
-  color: 0x020204,
+  map: sunTexture,
 });
 
 // define the object and his components*************************
@@ -60,7 +60,7 @@ scene.add(secondLight);
 //graphic light source points
 
 const lightHelper = new THREE.PointLightHelper(firstLight);
-scene.add(lightHelper);
+//scene.add(lightHelper);
 
 const gridHelper = new THREE.GridHelper(200, 50);
 //scene.add(gridHelper);
@@ -90,25 +90,26 @@ Array(600).fill().forEach(addStars);
 const spaceTexture = new THREE.TextureLoader().load("space.jpg");
 scene.background = spaceTexture;
 
-// my image creation
-
-const myTexture = new THREE.TextureLoader().load("./me.jpg");
-
-const me = new THREE.Mesh(
-  new THREE.BoxGeometry(3, 3, 3),
-  new THREE.MeshBasicMaterial({ map: myTexture })
-);
-scene.add(me);
-
 // earth geometry
 const earthTexture = new THREE.TextureLoader().load("earth.jpg");
+const earthClouds = new THREE.TextureLoader().load("earth-clouds.jpg");
 const earth = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
-  new THREE.MeshStandardMaterial({ map: earthTexture })
+  new THREE.MeshStandardMaterial({ map: earthTexture, normalMap: earthClouds })
 );
 scene.add(earth);
 earth.position.z = 30;
 earth.position.setX(-10);
+
+// venus geometry
+
+const venusTexture = new THREE.TextureLoader().load("venus.jpg");
+const venus = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 25, 32),
+  new THREE.MeshStandardMaterial({ map: venusTexture })
+);
+scene.add(venus);
+venus.position.z = 40;
 
 // defining the camera movement
 
@@ -131,11 +132,9 @@ document.body.Onscroll = moveCamera;
 function animate() {
   requestAnimationFrame(animate);
 
-  torus.rotation.x += 0.001;
-  torus.rotation.y += 0.001;
-  torus.rotation.z += 0.001;
+  torus.rotation.y += 0.00008;
 
-  me.rotation.y += -0.001;
+  earth.rotation.y += -0.001;
 
   controls.update();
 
