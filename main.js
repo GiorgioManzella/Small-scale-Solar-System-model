@@ -7,6 +7,18 @@ import {
 } from "three/examples/jsm/controls/OrbitControls";
 
 const scene = new THREE.Scene();
+// const listener = new THREE.AudioListener();
+// camera.add(listener);
+
+// const audioFile = new THREE.Audio(listener);
+
+// const audioLoader = new THREE.AudioLoader();
+// audioLoader.load("./Data/base music.mp4", function (buffer) {
+//   sound.setBuffer(buffer);
+//   sound.setLoop(true);
+//   sound.setVolume(0.5);
+//   sound.play();
+// });
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -30,6 +42,8 @@ const sunTexture = new THREE.TextureLoader().load("./Data/sun.jpg");
 const geometry = new THREE.SphereGeometry(25, 24, 24);
 const material = new THREE.MeshStandardMaterial({
   map: sunTexture,
+  emissive: true,
+  emissiveIntensity: 0.1,
 });
 // define the object and his components*************************
 
