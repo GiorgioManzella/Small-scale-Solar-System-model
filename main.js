@@ -12,7 +12,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000
+  2000
 );
 
 const renderer = new THREE.WebGLRenderer({
@@ -26,7 +26,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 
 //create mesh components so geometry and material, +the defined shape from the library or blender**************
-const sunTexture = new THREE.TextureLoader().load("sun.jpg");
+const sunTexture = new THREE.TextureLoader().load("./Data/sun.jpg");
 const geometry = new THREE.SphereGeometry(25, 24, 24);
 const material = new THREE.MeshStandardMaterial({
   map: sunTexture,
@@ -62,13 +62,13 @@ const lightHelper = new THREE.PointLightHelper(firstLight);
 //scene.add(lightHelper);
 
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(gridHelper);
+//scene.add(gridHelper);
 
 // set up orbit control after import
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// create multiple random objects for the scene and add it to the rendered scene
+// create multiple random objects for the scene and add it to the rendered scene*****STARS
 
 function addStars() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
@@ -84,14 +84,63 @@ function addStars() {
 
 Array(200).fill().forEach(addStars);
 
-// set custom texture for it
+// set custom texture for it*********************************************************
 
-const spaceTexture = new THREE.TextureLoader().load("space.jpg");
+const spaceTexture = new THREE.TextureLoader().load("./Data/space.jpg");
 scene.background = spaceTexture;
 
-// earth geometry
-const earthTexture = new THREE.TextureLoader().load("earth.jpg");
-const earthClouds = new THREE.TextureLoader().load("earth-clouds.jpg");
+// uranus*********************************************************************** URANUS
+
+const uranusTexture = new THREE.TextureLoader().load("./Data/uranus.jpg");
+const uranus = new THREE.Mesh(
+  new THREE.SphereGeometry(4, 50, 50),
+  new THREE.MeshStandardMaterial({ map: uranusTexture })
+);
+scene.add(uranus);
+uranus.position.z = 330;
+
+// NEPTUNE************************************************************************NEPTUNE
+
+const neptuneTexture = new THREE.TextureLoader().load("./Data/neptune.jpg");
+const neptune = new THREE.Mesh(
+  new THREE.SphereGeometry(4, 50, 50),
+  new THREE.MeshStandardMaterial({ map: neptuneTexture })
+);
+scene.add(neptune);
+neptune.position.z = 370;
+
+//saturn************************************************************************SATURN
+
+const saturnTexture = new THREE.TextureLoader().load("./Data/saturn.jpg");
+const saturn = new THREE.Mesh(
+  new THREE.SphereGeometry(10, 50, 50),
+  new THREE.MeshStandardMaterial({ map: saturnTexture })
+);
+scene.add(saturn);
+saturn.position.z = 240;
+
+//saturn rings*********************************************************************RINGS
+
+const saturnRingTexture = new THREE.TextureLoader().load(
+  "./Data/saturnRing2.png"
+);
+const saturnRing = new THREE.Mesh(
+  new THREE.PlaneGeometry(80, 80, 1, 1),
+  new THREE.MeshStandardMaterial({
+    map: saturnRingTexture,
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.5,
+    color: 0xffffff,
+  })
+);
+scene.add(saturnRing);
+saturnRing.position.z = 240;
+saturnRing.rotation.y += 25;
+saturnRing.rotation.x += 45;
+
+// earth geometry************************************************************************EARTH
+const earthTexture = new THREE.TextureLoader().load("./Data/earth.jpg");
 const earth = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({ map: earthTexture })
@@ -99,45 +148,47 @@ const earth = new THREE.Mesh(
 scene.add(earth);
 earth.position.z = 80;
 
-//jupiter geometry
+//jupiter geometry**********************************************************************JUPITER
 
-const jupiterTexture = new THREE.TextureLoader().load("jupiter.jpg");
+const jupiterTexture = new THREE.TextureLoader().load("./Data/jupiter.jpg");
 
 const jupiter = new THREE.Mesh(
-  new THREE.SphereGeometry(10, 50, 50),
+  new THREE.SphereGeometry(12, 50, 50),
   new THREE.MeshStandardMaterial({ map: jupiterTexture })
 );
 scene.add(jupiter);
-jupiter.position.z = 140;
+jupiter.position.z = 160;
 
-// mars geometry
+// mars geometry************************************************************************MARS
 
-const marsTexture = new THREE.TextureLoader().load("mars.jpg");
+const marsTexture = new THREE.TextureLoader().load("./Data/mars.jpg");
 
 const mars = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 26, 26),
+  new THREE.SphereGeometry(2, 26, 26),
   new THREE.MeshStandardMaterial({ map: marsTexture })
 );
 scene.add(mars);
 mars.position.z = 100;
 
-// mercury geometry
+// mercury geometry********************************************************************MERCURY
 
-const mercuryTexture = new THREE.TextureLoader().load("mercury.jpg");
+const mercuryTexture = new THREE.TextureLoader().load("./Data/mercury.jpg");
 
 const mercury = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 22, 22),
+  new THREE.SphereGeometry(1, 22, 22),
   new THREE.MeshStandardMaterial({ map: mercuryTexture })
 );
 scene.add(mercury);
 mercury.position.z = 40;
 
-// venus geometry
+// venus geometry**********************************************************************VENUS
 
-const venusTexture = new THREE.TextureLoader().load("venus.jpg");
-const venusAtmosphere = new THREE.TextureLoader().load("venus-atmosphere");
+const venusTexture = new THREE.TextureLoader().load("./Data/venus.jpg");
+const venusAtmosphere = new THREE.TextureLoader().load(
+  "./Data/venus-atmosphere"
+);
 const venus = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 25, 32),
+  new THREE.SphereGeometry(2.2, 25, 32),
   new THREE.MeshStandardMaterial({
     map: venusTexture,
     normalMa: venusAtmosphere,
@@ -171,11 +222,14 @@ function animate() {
 
   const earthYear = 2 * Math.PI * (1 / 60) * (1 / 60);
 
-  mercury.rotation.y += earthYear * 4;
-  venus.rotation.y += earthYear * 2;
-
+  mercury.rotation.y += earthYear * 6.228668941979522;
+  venus.rotation.y += earthYear * 1.502057613168724;
   earth.rotation.y += earthYear;
-
+  mars.rotation.y += earthYear * 1.03;
+  jupiter.rotation.y += earthYear * 0.041;
+  saturn.rotation.y += earthYear * 0.04329166666666667;
+  uranus.rotation.y += earthYear * 0.7083333333333333;
+  neptune.rotation.y += earthYear * 0.0416666666666667;
   controls.update();
 
   renderer.render(scene, camera);
