@@ -34,15 +34,21 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   2000
 );
-
+// ANTIALIASING***************************************************************AA
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
   antialias: true,
 });
+
+//VR *************************************************************************
+
 renderer.xr.enabled = true;
 renderer.setAnimationLoop(function () {
   renderer.render(scene, camera);
 });
+
+document.body.appendChild(VRButton.createButton(renderer));
+
 // set settings for the render proprieties like width and height*************
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -258,7 +264,6 @@ function animate() {
   neptune.rotation.y += earthYear * 0.0416666666666667;
   controls.update();
 
-  document.body.appendChild(VRButton.createButton(renderer));
   renderer.render(scene, camera);
 }
 
