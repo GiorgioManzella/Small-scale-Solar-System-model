@@ -5,6 +5,10 @@ import {
   MapControls,
   OrbitControls,
 } from "three/examples/jsm/controls/OrbitControls";
+import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
+import Stats from "stats.js";
+
+// attempt at implementing sound, not working for now
 
 const scene = new THREE.Scene();
 // const listener = new THREE.AudioListener();
@@ -19,6 +23,10 @@ const scene = new THREE.Scene();
 //   sound.setVolume(0.5);
 //   sound.play();
 // });
+// fps counter************************************************************FPS
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -29,8 +37,12 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
+  antialias: true,
 });
-
+renderer.xr.enabled = true;
+renderer.setAnimationLoop(function () {
+  renderer.render(scene, camera);
+});
 // set settings for the render proprieties like width and height*************
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -246,8 +258,23 @@ function animate() {
   neptune.rotation.y += earthYear * 0.0416666666666667;
   controls.update();
 
+  document.body.appendChild(VRButton.createButton(renderer));
   renderer.render(scene, camera);
 }
+
+(function () {
+  var script = document.createElement("script");
+  script.onload = function () {
+    var stats = new Stats();
+    document.body.appendChild(stats.dom);
+    requestAnimationFrame(function loop() {
+      stats.update();
+      requestAnimationFrame(loop);
+    });
+  };
+  script.src = "//mrdoob.github.io/stats.js/build/stats.min.js";
+  document.head.appendChild(script);
+})();
 
 //call the function
 
