@@ -6,6 +6,6 @@ To start this project I had to go an start from scrach reading the documentation
 
 After a couple of hours I was able to render some geometries and control the camera in a basic way.
 
-As now the project include all the planet in the solar system and the rotation are calculated based on a mathematical operation that use earth rotation as a base.
+As of now, the project includes all the planets in the solar system and the rotations are calculated based on a mathematical operation that uses earth rotation as a base.
 
 ![Alt Text](https://media.giphy.com/media/BqsQzWLHnXV3CVBzEC/giphy.gif)
